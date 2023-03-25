@@ -109,9 +109,18 @@ public:
         }
     }
 
-    double distanceToElbow(Point currPos, Point targetPos);
+    double distanceToElbow(Point currPos, Point targetPos)
+    {
+        return sqrt(((currPos.x - targetPos.x) * (currPos.x - targetPos.x)) + ((currPos.y - targetPos.y) * (currPos.y - targetPos.y)));
+    }
 
-    double convertToAdjustedCoordinateSystem(double offset, double start_angle_offset);
+    double convertToAdjustedCoordinateSystem(double offset, double start_angle_offset)
+    {
+        return 360 - start_angle_offset + offset;
+    }
 
-    double convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset);
+    double convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset)
+    {
+        return adjustedAngle + start_angle_offset - 360;
+    }
 };
