@@ -89,15 +89,20 @@ public:
         return sqrt(((m_curr_elbow_xy.x - targetPos.x) * (m_curr_elbow_xy.x - targetPos.x)) + ((m_curr_elbow_xy.y - targetPos.y) * (m_curr_elbow_xy.y - targetPos.y)));
     };
 
-    double convertToAdjustedCoordinateSystem(double offset, double start_angle_offset)
+    /**
+     * @brief Converts from robot reference frame to motor angle reference frame
+     *
+     * @param robot_solution
+     * @return ArmAngles
+     */
+    ArmAngles get_command_solution()
     {
-        return 360 - start_angle_offset + offset;
-    };
+        ArmAngles res;
+        res.elbow = m_target_theta.elbow - m_offset_theta.elbow;
+        res.shoulder = m_target_theta.shoulder - m_offset_theta.shoulder;
 
-    double convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset)
-    {
-        return adjustedAngle + start_angle_offset - 360;
-    };
+        return res;
+    }
 
     /**
      * @brief Culls non optimal solutions
@@ -248,6 +253,24 @@ public:
         return res;
     }
 
+    /**
+     * @brief used to update the local variables with the target. Run this after you send the commands to the motor.
+     *
+     */
+    void set_target_to_current()
+    {
+        m_curr_theta = m_target_theta;
+        m_curr_elbow_xy.set_mag_angle(m_shoulder_len, m_curr_theta.shoulder - 90.0f);
+    }
+
+    /**
+     * @brief Construct a new Move X Y object
+     *
+     * @param start_angle_offset_shoulder The offset from the robot reference coordinate system in which the inner arm is stowed
+     * @param start_angle_offset_elbow The offset from the robot reference coordinate system in which the outer arm is stowed
+     * @param shoulder_len length of the inner arm
+     * @param elbow_len length of the outer arm, all the way to center of end effector
+     */
     MoveXY(float start_angle_offset_shoulder, float start_angle_offset_elbow, float shoulder_len, float elbow_len)
     {
         m_curr_theta.elbow = 360.0f - start_angle_offset_elbow;

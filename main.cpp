@@ -7,7 +7,7 @@ int main()
 
     constexpr double armLen{22.5};
     constexpr double wristLen{33.4f};
-    MoveXY foo(0, 0, armLen, wristLen);
+    MoveXY foo(320, 315, armLen, wristLen);
 
     MoveXY::Point target{25, 25};
     int x = foo.getCircleInts(target);
@@ -27,5 +27,14 @@ int main()
     std::cout << "x target: " << target.x << " calc: " << back_calc_target.x << std::endl;
     std::cout << "y target: " << target.y << " calc: " << back_calc_target.y << std::endl;
 
+    MoveXY::ArmAngles motor_angle = foo.get_command_solution();
+
+    std::cout << "inner motor command: " << motor_angle.shoulder << " Outer Motor command: " << motor_angle.elbow << std::endl;
+
+    // set the motors here
+
+    foo.set_target_to_current();
+
+    std::cout << "Curr x: " << foo.m_curr_elbow_xy.x << " Curr y: " << foo.m_curr_elbow_xy.y << std::endl;
     return 1;
 };
