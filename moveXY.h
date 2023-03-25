@@ -9,6 +9,11 @@ private:
         m_start_angle_offset_shoulder,
         m_start_angle_offset_elbow;
 
+    double m_curr_x,
+        m_curr_y,
+        m_curr_theta_shoulder,
+        m_curr_theta_elbow;
+
 protected:
 public:
     struct Point
@@ -16,10 +21,6 @@ public:
         double x;
         double y;
     };
-
-    moveXY(float startX, float startY, float start_angle_offset_shoulder, float start_angle_offset_elbow) : m_startX{startX}, m_startY{startY}, m_start_angle_offset_shoulder{start_angle_offset_shoulder}, m_start_angle_offset_elbow{start_angle_offset_elbow}
-    {
-    }
 
     int getQuadrant(Point pt)
     {
@@ -40,5 +41,13 @@ public:
         std::vector<Point> outputPoints;
 
         return outputPoints;
+    }
+
+    moveXY(float startX, float startY, float start_angle_offset_shoulder, float start_angle_offset_elbow) : m_startX{startX}, m_startY{startY}, m_start_angle_offset_shoulder{start_angle_offset_shoulder}, m_start_angle_offset_elbow{start_angle_offset_elbow}
+    {
+        m_curr_x = m_startX;
+        m_curr_y = m_startY;
+        m_curr_theta_shoulder = 360.0f - start_angle_offset_shoulder;
+        m_curr_theta_elbow = 360.0f - start_angle_offset_elbow;
     }
 };
