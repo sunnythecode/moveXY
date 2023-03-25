@@ -38,7 +38,18 @@ public:
     std::vector<moveXY::Point> cull_elbow(Point int1, Point int2, int preferredQuadrant)
     {
         std::vector<Point> outputPoints;
-
+        if (getQuadrant(int1) == preferredQuadrant) 
+        {
+            outputPoints.push_back(int1);
+        }
+        if (getQuadrant(int2) == preferredQuadrant) 
+        {
+            outputPoints.push_back(int2);
+        }
+        if (outputPoints.size() == 0) {
+            outputPoints.push_back(int1);
+            outputPoints.push_back(int2);
+        }
         return outputPoints;
     }
 };
