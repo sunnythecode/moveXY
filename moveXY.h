@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 class moveXY
 {
@@ -62,4 +63,10 @@ public:
         m_curr_theta_shoulder = 360.0f - start_angle_offset_shoulder;
         m_curr_theta_elbow = 360.0f - start_angle_offset_elbow;
     }
+
+    double distanceToElbow(Point currPos, Point targetPos);
+
+    double convertToAdjustedCoordinateSystem(double offset, double start_angle_offset);
+
+    double convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset);
 };
