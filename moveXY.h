@@ -40,8 +40,9 @@ public:
         }
         void set_mag_angle(double magnitude, double angle)
         {
-            y = magnitude * sinf(angle);
-            x = magnitude * cosf(angle);
+            double radians = angle * 3.1415 / 180; // convert to radians
+            y = magnitude * sinf(radians);
+            x = magnitude * cosf(radians);
         }
     };
 
@@ -188,7 +189,6 @@ public:
      */
     double get_theta_shoulder(Point targetXY)
     {
-        int quadrant = getQuadrant(targetXY);
         double angle = targetXY.get_angle() + 90.0f;
 
         if (angle > 360.0f)
@@ -226,6 +226,26 @@ public:
         Point res = cull_elbow(i1, i2, quadrant);
         m_target_theta.shoulder = get_theta_shoulder(res);
         m_target_theta.elbow = get_theta_elbow(res, target);
+    }
+
+    /**
+     * @brief Used to back calculate the current XY of the arm from the commanded angle
+     *
+     * @param pose commanded pose of the arm
+     * @return Point
+     */
+    Point command_to_xy(ArmAngles pose)
+    {
+        Point shoulder, elbow, res;
+        double shoulder_angle = pose.shoulder - 90.0f;
+        shoulder.set_mag_angle(m_shoulder_len, shoulder_angle);
+
+        double elbow_angle = pose.elbow - 180.0f - shoulder.get_angle();
+        elbow_angle = std::round(elbow_angle);
+        elbow.set_mag_angle(m_elbow_len, elbow_angle);
+        res.setCoords(shoulder.x + elbow.x, shoulder.y + elbow.y);
+
+        return res;
     }
 
     MoveXY(float start_angle_offset_shoulder, float start_angle_offset_elbow, float shoulder_len, float elbow_len)
