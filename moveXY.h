@@ -123,4 +123,11 @@ public:
     {
         return adjustedAngle + start_angle_offset - 360;
     }
+
+    double get_theta_arm(Point targetXY) {
+        quadrant = getQuadrant(targetXY.x, targetXY.y);
+        angle = atan(targetXY.y / targetXY.x) * 180/3.1415; //convert from rad to degrees
+        angle += (90 * (quadrant - 1));
+        return angle;
+    }
 };
