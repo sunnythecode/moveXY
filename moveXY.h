@@ -49,7 +49,7 @@ public:
         }
 
         return res;
-    }
+    };
     std::vector<Point> cull_elbow(Point int1, Point int2, int preferredQuadrant)
     {
         std::vector<Point> outputPoints;
@@ -130,5 +130,12 @@ public:
 
         m_shoulder_len = shoulder_len;
         m_elbow_len = elbow_len;
-    }
+    };
+    double get_theta_arm(Point targetXY)
+    {
+        int quadrant = getQuadrant(targetXY);
+        double angle = atan(targetXY.y / targetXY.x) * 180 / 3.1415; // convert from rad to degrees
+        angle += (90 * (quadrant - 1));
+        return angle;
+    };
 };
