@@ -4,24 +4,25 @@
 class moveXY
 {
 private:
-    float m_startX,
-        m_startY,
-        m_start_angle_offset_shoulder,
-        m_start_angle_offset_elbow;
-
-    double m_curr_x,
-        m_curr_y,
-        m_curr_theta_shoulder,
-        m_curr_theta_elbow;
-
-protected:
-public:
     struct Point
     {
         double x;
         double y;
     };
 
+    struct ArmSolution
+    {
+        double shoulder;
+        double elbow;
+    };
+
+    Point m_start_xy,
+        m_curr_xy;
+    ArmSolution m_offset_theta;
+    ArmSolution m_curr_theta;
+
+protected:
+public:
     int getQuadrant(Point pt)
     {
         int res = -1;
@@ -55,11 +56,11 @@ public:
         return outputPoints;
     }
 
-    moveXY(float startX, float startY, float start_angle_offset_shoulder, float start_angle_offset_elbow) : m_startX{startX}, m_startY{startY}, m_start_angle_offset_shoulder{start_angle_offset_shoulder}, m_start_angle_offset_elbow{start_angle_offset_elbow}
+    moveXY(float startX, float startY, float start_angle_offset_shoulder, float start_angle_offset_elbow)
     {
-        m_curr_x = m_startX;
-        m_curr_y = m_startY;
-        m_curr_theta_shoulder = 360.0f - start_angle_offset_shoulder;
-        m_curr_theta_elbow = 360.0f - start_angle_offset_elbow;
+        m_curr_theta.elbow = 360.0f - start_angle_offset_elbow;
+        m_curr_theta.shoulder = 360.0f - start_angle_offset_shoulder;
+        m_curr_xy.x = m_start_xy.x = startX;
+        m_curr_xy.y = m_start_xy.x = startY;
     }
 };
