@@ -110,4 +110,10 @@ public:
             return 2;
         }
     }
+
+    double distanceToElbow(Point currPos, Point targetPos);
+
+    double convertToAdjustedCoordinateSystem(double offset, double start_angle_offset);
+
+    double convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset);
 };
