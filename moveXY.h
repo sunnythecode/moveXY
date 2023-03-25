@@ -138,4 +138,5 @@ public:
         angle += (90 * (quadrant - 1));
         return angle;
     };
+
 };
