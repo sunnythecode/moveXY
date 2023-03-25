@@ -6,7 +6,7 @@ private:
     float m_startX,
         m_startY,
         m_start_angle_offset_shoulder,
-        m_start_angle_offset_shoulder;
+        m_start_angle_offset_elbow;
 
 protected:
 public:
