@@ -33,8 +33,10 @@ public:
         m_curr_xy;
     ArmSolution m_offset_theta;
     ArmSolution m_curr_theta;
+    float m_elbow_len,
+        m_shoulder_len;
 
-    int getQuadrant(Point pt)
+    getQuadrant(Point pt)
     {
         int res = -1;
         if (pt.x >= 0)
@@ -125,5 +127,8 @@ public:
 
         m_offset_theta.shoulder = start_angle_offset_shoulder;
         m_offset_theta.elbow = start_angle_offset_elbow;
+
+        m_shoulder_len = shoulder_len;
+        m_elbow_len = elbow_len;
     }
 };
