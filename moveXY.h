@@ -6,10 +6,12 @@
 class moveXY
 {
 public:
-    struct Point
+    class Point
     {
+    public:
         double x;
         double y;
+
         double norm()
         {
             return std::sqrt(x * x + y * y);
@@ -65,14 +67,6 @@ public:
         return outputPoints;
     }
 
-    moveXY(float startX, float startY, float start_angle_offset_shoulder, float start_angle_offset_elbow)
-    {
-        m_curr_theta.elbow = 360.0f - start_angle_offset_elbow;
-        m_curr_theta.shoulder = 360.0f - start_angle_offset_shoulder;
-        m_curr_xy.x = m_start_xy.x = startX;
-        m_curr_xy.y = m_start_xy.x = startY;
-    }
-
     size_t getCircleInts(float originRadius, float targetRadius, Point target, Point &i1, Point &i2)
     {
         double d = Point{0 - target.x, 0 - target.y}.norm();
@@ -122,5 +116,14 @@ public:
     double convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset)
     {
         return adjustedAngle + start_angle_offset - 360;
+    }
+
+    moveXY(float start_angle_offset_shoulder, float start_angle_offset_elbow, float shoulder_len, float elbow_len)
+    {
+        m_curr_theta.elbow = 360.0f - start_angle_offset_elbow;
+        m_curr_theta.shoulder = 360.0f - start_angle_offset_shoulder;
+
+        m_offset_theta.shoulder = start_angle_offset_shoulder;
+        m_offset_theta.elbow = start_angle_offset_elbow;
     }
 };
