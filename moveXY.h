@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <cmath>
 
 class moveXY
 {
@@ -20,6 +22,13 @@ public:
     {
         double x;
         double y;
+        double norm() {
+            return std::sqrt( x * x + y * y );
+        }
+        void setCoords(double in_x, double in_y) {
+            x = in_x;
+            y = in_y;
+        }
     };
 
     int getQuadrant(Point pt)
@@ -61,5 +70,41 @@ public:
         m_curr_y = m_startY;
         m_curr_theta_shoulder = 360.0f - start_angle_offset_shoulder;
         m_curr_theta_elbow = 360.0f - start_angle_offset_elbow;
+
+    }
+    
+    size_t getCircleInts(float originRadius, float targetRadius, Point target, Point i1, Point i2) {
+        double d = Point{0 - target.x, 0 - target.y}.norm();
+         
+        // find number of solutions
+        if(d > originRadius + targetRadius) // circles are too far apart, no solution(s)
+        {
+            return 0;
+        }
+        else if(d == 0 && originRadius == targetRadius) // circles coincide
+        {
+            return 0;
+        }
+        // one circle contains the other
+        else if(d + std::min(originRadius, targetRadius) < std::max(originRadius, targetRadius))
+        {
+            return 0;
+        }
+        else
+        {
+            double a = (originRadius * originRadius - targetRadius*targetRadius + d*d)/ (2.0*d);
+            double h = std::sqrt(originRadius * originRadius - a*a);
+             
+            // find p2
+            Point p2 {0 + (a * (target.x - 0)) / d, 0 + (a * (target.y - 0)) / d};
+             
+            // find intersection points p3
+            i1.setCoords( p2.x + (h * (target.y - 0)/ d), p2.y - (h * (target.x - 0)/ d));
+            i2.setCoords( p2.x - (h * (target.y - 0)/ d), p2.y + (h * (target.x - 0)/ d));
+             
+            if(d == originRadius + targetRadius)
+                return 1;
+            return 2;
+        }
     }
 };
