@@ -35,7 +35,7 @@ public:
 
         return res;
     }
-    std::vector<moveXY::Point> cull_elbow(Point int1, Point int2, int preferredQuadrant)
+    std::vector<Point> cull_elbow(Point int1, Point int2, int preferredQuadrant)
     {
         std::vector<Point> outputPoints;
         if (getQuadrant(int1) == preferredQuadrant) 
@@ -52,4 +52,6 @@ public:
         }
         return outputPoints;
     }
+
+    
 };
