@@ -15,6 +15,11 @@ int moveXY::getQuadrant(Point pt) {
     return res;
 }
 
+double moveXY::distanceToElbow(Point currPos, Point targetPos) {
+    return sqrt(((currPos.x - targetPos.x) * (currPos.x - targetPos.x)) + ((currPos.y - targetPos.y) * (currPos.y - targetPos.y)));
+}
+
+
 std::vector<moveXY::Point> moveXY::cull_elbow() {
     
     
