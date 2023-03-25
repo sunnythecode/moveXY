@@ -20,6 +20,15 @@ double moveXY::distanceToElbow(Point currPos, Point targetPos) {
 }
 
 
+double moveXY::convertToAdjustedCoordinateSystem(double currOffset, double start_angle_offset) {
+    return 360 - start_angle_offset + currOffset;
+}
+
+double moveXY::convertToOriginalCoordinateSystem(double adjustedAngle, double start_angle_offset) {
+    return adjustedAngle + start_angle_offset - 360;
+}
+
+
 std::vector<moveXY::Point> moveXY::cull_elbow() {
     
     
