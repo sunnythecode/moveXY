@@ -6,10 +6,12 @@
 class moveXY
 {
 public:
-    struct Point
+    class Point
     {
+    public:
         double x;
         double y;
+
         double norm()
         {
             return std::sqrt(x * x + y * y);
@@ -31,8 +33,10 @@ public:
         m_curr_xy;
     ArmSolution m_offset_theta;
     ArmSolution m_curr_theta;
+    float m_elbow_len,
+        m_shoulder_len;
 
-    int getQuadrant(Point pt)
+    getQuadrant(Point pt)
     {
         int res = -1;
         if (pt.x >= 0)
@@ -45,7 +49,7 @@ public:
         }
 
         return res;
-    }
+    };
     std::vector<Point> cull_elbow(Point int1, Point int2, int preferredQuadrant)
     {
         std::vector<Point> outputPoints;
@@ -63,14 +67,6 @@ public:
             outputPoints.push_back(int2);
         }
         return outputPoints;
-    }
-
-    moveXY(float startX, float startY, float start_angle_offset_shoulder, float start_angle_offset_elbow)
-    {
-        m_curr_theta.elbow = 360.0f - start_angle_offset_elbow;
-        m_curr_theta.shoulder = 360.0f - start_angle_offset_shoulder;
-        m_curr_xy.x = m_start_xy.x = startX;
-        m_curr_xy.y = m_start_xy.x = startY;
     }
 
     size_t getCircleInts(float originRadius, float targetRadius, Point target, Point &i1, Point &i2)
@@ -123,4 +119,24 @@ public:
     {
         return adjustedAngle + start_angle_offset - 360;
     }
+
+    moveXY(float start_angle_offset_shoulder, float start_angle_offset_elbow, float shoulder_len, float elbow_len)
+    {
+        m_curr_theta.elbow = 360.0f - start_angle_offset_elbow;
+        m_curr_theta.shoulder = 360.0f - start_angle_offset_shoulder;
+
+        m_offset_theta.shoulder = start_angle_offset_shoulder;
+        m_offset_theta.elbow = start_angle_offset_elbow;
+
+        m_shoulder_len = shoulder_len;
+        m_elbow_len = elbow_len;
+    };
+    double get_theta_arm(Point targetXY)
+    {
+        int quadrant = getQuadrant(targetXY);
+        double angle = atan(targetXY.y / targetXY.x) * 180 / 3.1415; // convert from rad to degrees
+        angle += (90 * (quadrant - 1));
+        return angle;
+    };
+
 };

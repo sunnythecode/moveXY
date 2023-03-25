@@ -4,8 +4,8 @@
 int main()
 {
     std::cout << "hello world" << std::endl;
+    moveXY foo(20.0f, 30.0f, 22.5f, 34.3f);
 
-    moveXY foo = moveXY(0, 0, 0, 0);
     moveXY::Point target{4, 5};
     moveXY::Point p1{0, 0};
     moveXY::Point p2{0, 0};
