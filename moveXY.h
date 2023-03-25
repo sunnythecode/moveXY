@@ -5,7 +5,7 @@
 
 class moveXY
 {
-private:
+public:
     struct Point
     {
         double x;
@@ -32,8 +32,6 @@ private:
     ArmSolution m_offset_theta;
     ArmSolution m_curr_theta;
 
-protected:
-public:
     int getQuadrant(Point pt)
     {
         int res = -1;
@@ -75,7 +73,7 @@ public:
         m_curr_xy.y = m_start_xy.x = startY;
     }
 
-    size_t getCircleInts(float originRadius, float targetRadius, Point target, Point i1, Point i2)
+    size_t getCircleInts(float originRadius, float targetRadius, Point target, Point &i1, Point &i2)
     {
         double d = Point{0 - target.x, 0 - target.y}.norm();
 
