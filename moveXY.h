@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 class moveXY
 {
@@ -33,8 +34,12 @@ public:
 
         return res;
     }
-
+    std::vector<moveXY::Point> moveXY::cull_elbow(Point int1, Point int2, int preferredQuadrant) {
     
+
+    }
+
+
 
 
 };
