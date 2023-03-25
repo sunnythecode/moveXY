@@ -21,5 +21,5 @@ public:
     {
     }
 
-    double distanceToElbow(Point pt) {}
+    double distanceToElbow(Point pt);
 };
